@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ContentView: View {
+struct LevelEasyView: View {
 
     let colors: [Color] = [.red, .yellow, .green]
     let size = 3
@@ -16,15 +16,15 @@ struct ContentView: View {
     @State private var showWin = false
 
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 40) {
 
-            Text("Square Game")
+            Text("Level Easy")
                 .font(.largeTitle)
                 .bold()
 
-            VStack(spacing: 8) {
+            VStack(spacing: 10) {
                 ForEach(0..<size, id: \.self) { row in
-                    HStack(spacing: 8) {
+                    HStack(spacing: 10) {
                         ForEach(0..<size, id: \.self) { col in
                             Rectangle()
                                 .fill(grid[row][col])
@@ -33,7 +33,7 @@ struct ContentView: View {
                                 .overlay(
                                     selectedRow == row && selectedCol == col
                                     ? RoundedRectangle(cornerRadius: 10)
-                                        .stroke(.black, lineWidth: 3)
+                                        .stroke(.secondary, lineWidth: 5)
                                     : nil
                                 )
                                 .onTapGesture {
@@ -50,7 +50,7 @@ struct ContentView: View {
         }
     }
 
-    // MARK: - Logic
+    // Logics
 
     func handleTap(row: Int, col: Int) {
         if selectedRow == nil {
@@ -86,7 +86,7 @@ struct ContentView: View {
         var yellowLine = false
         var greenLine = false
 
-        // Check rows
+        // Check horizontally, row wise
         for r in 0..<size {
             let row = grid[r]
             if row.allSatisfy({ $0 == .red }) {
@@ -100,7 +100,7 @@ struct ContentView: View {
             }
         }
 
-        // Check columns
+        // Check vertically, column wise
         for c in 0..<size {
             let col = [grid[0][c], grid[1][c], grid[2][c]]
             if col.allSatisfy({ $0 == .red }) {
@@ -122,5 +122,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    LevelEasyView()
 }
