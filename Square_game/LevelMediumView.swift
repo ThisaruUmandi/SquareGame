@@ -13,7 +13,6 @@ struct LevelMediumView: View {
         [.yellow, .green, .blue, .orange, .red]
     ]
 
-
     @State private var selectedRow: Int? = nil
     @State private var selectedCol: Int? = nil
     @State private var showWin = false
