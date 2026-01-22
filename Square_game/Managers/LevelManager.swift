@@ -1,40 +1,37 @@
-import SwiftUI
-
-struct LevelConfig {
-    let gridSize: Int
-    let colors: [Color]
-    let maxTime: Int
-    let maxMoves: Int
-}
+import Foundation
 
 class LevelManager: ObservableObject {
-    @Published var round: Int = 1
-
-    func currentLevelConfig() -> LevelConfig {
-        switch round {
-        case 1...10:
-            return LevelConfig(gridSize: 3,
-                               colors: [.red, .yellow, .green],
-                               maxTime: 30,
-                               maxMoves: 20)
-        case 11...20:
-            return LevelConfig(gridSize: 5,
-                               colors: [.red, .yellow, .green, .blue],
-                               maxTime: 60,
-                               maxMoves: 40)
-        default:
-            return LevelConfig(gridSize: 7,
-                               colors: [.red, .yellow, .green, .blue, .orange],
-                               maxTime: 90,
-                               maxMoves: 50)
+    @Published var currentRound: Int = 1
+    @Published var highestUnlockedRound: Int = 1
+    
+    func getCurrentConfig() -> (gridSize: Int, colorCount: Int, timeLimit: TimeInterval, maxMoves: Int) {
+        return (
+            gridSize: GameConstants.gridSize(for: currentRound),
+            colorCount: GameConstants.colorCount(for: currentRound),
+            timeLimit: GameConstants.timeLimit(for: currentRound),
+            maxMoves: GameConstants.maxMoves(for: currentRound)
+        )
+    }
+    
+    func unlockNextRound() {
+        if currentRound < 30 {
+            currentRound += 1
+            highestUnlockedRound = max(highestUnlockedRound, currentRound)
         }
     }
-
-    func nextRound() {
-        round += 1
+    
+    func canPlayRound(_ round: Int) -> Bool {
+        return round <= highestUnlockedRound
     }
-
-    func resetRound() {
-        // keep same round when player loses
+    
+    func selectRound(_ round: Int) {
+        if canPlayRound(round) {
+            currentRound = round
+        }
+    }
+    
+    func resetProgress() {
+        currentRound = 1
+        highestUnlockedRound = 1
     }
 }
