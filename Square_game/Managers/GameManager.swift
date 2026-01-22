@@ -80,7 +80,6 @@ class GameManager: ObservableObject {
     
     private func handleGameOver(won: Bool) {
         timer?.invalidate()
-        gameState.isGameOver = true
         gameState.didWin = won
         
         if won {
@@ -91,11 +90,14 @@ class GameManager: ObservableObject {
                 maxMoves: gameState.maxMoves
             )
             
-            // Check if it's a high score
+            // ONLY trigger name entry if they actually beat a record
             if highScoreManager.isNewHighScore(round: gameState.currentRound, score: gameState.score) {
                 showNameEntry = true
             }
         }
+        
+        // Set this LAST to trigger the UI presentation
+        gameState.isGameOver = true
     }
     
     func saveHighScore(playerName: String) {

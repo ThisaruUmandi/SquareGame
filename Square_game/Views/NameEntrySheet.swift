@@ -11,60 +11,84 @@ struct NameEntrySheet: View {
     
     var body: some View {
         ZStack {
-            // Candy Theme Background
+            // MARK: - Mobile Background
             CandyTheme.backgroundGradient.ignoresSafeArea()
             
-            VStack(spacing: 30) {
+            VStack(spacing: 25) {
+                // Header - Scaled for Mobile
                 Text("🏆 New High Score!")
-                    .font(.system(size: 36, weight: .black, design: .rounded))
+                    .font(.system(size: 32, weight: .black, design: .rounded))
                     .foregroundColor(.white)
-                    .shadow(color: .black.opacity(0.2), radius: 0, x: 0, y: 4)
+                    .multilineTextAlignment(.center)
+                    .shadow(color: .black.opacity(0.2), radius: 4, y: 4)
+                    .padding(.top, 20)
                 
-                VStack(spacing: 10) {
-                    Text("Round \(round)")
-                        .font(.system(.title2, design: .rounded).bold())
-                        .foregroundColor(.white.opacity(0.9))
+                // Score Display Card
+                VStack(spacing: 8) {
+                    Text("ROUND \(round)")
+                        .font(.system(size: 18, weight: .bold, design: .rounded))
+                        .foregroundColor(.white.opacity(0.8))
                     
-                    Text("Score: \(score)")
-                        .font(.system(size: 44, weight: .black, design: .rounded))
-                        .foregroundStyle(CandyTheme.primaryGradient)
-                        .padding(.horizontal, 30)
-                        .padding(.vertical, 10)
-                        .background(Color.white.opacity(0.9))
-                        .cornerRadius(20)
+                    Text("\(score)")
+                        .font(.system(size: 60, weight: .black, design: .rounded))
+                        .foregroundColor(.yellow)
+                        .shadow(color: .orange.opacity(0.5), radius: 0, x: 0, y: 4)
                 }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 20)
+                .background(
+                    RoundedRectangle(cornerRadius: 25)
+                        .fill(Color.white.opacity(0.15))
+                        .overlay(RoundedRectangle(cornerRadius: 25).stroke(Color.white.opacity(0.3), lineWidth: 3))
+                )
+                .padding(.horizontal, 30)
+                .padding(50)
                 
-                VStack(alignment: .center, spacing: 15) {
-                    Text("Enter Your Name")
-                        .font(.system(.headline, design: .rounded))
+                // Input Section
+                VStack(alignment: .center, spacing: 12) {
+                    Text("ENTER YOUR NAME")
+                        .font(.system(size: 14, weight: .black, design: .rounded))
                         .foregroundColor(.white)
                     
                     TextField("Player Name", text: $playerName)
-                        .font(.system(size: 24, weight: .bold, design: .rounded))
+                        .font(.system(size: 22, weight: .bold, design: .rounded))
                         .multilineTextAlignment(.center)
-                        .padding()
+                        .padding(.vertical, 15)
                         .background(Color.white)
-                        .cornerRadius(15)
+                        .cornerRadius(18)
+                        .foregroundColor(.black)
                         .focused($isNameFieldFocused)
                         .submitLabel(.done)
-                        .onSubmit { saveScore() }
+                        .onSubmit {
+                            saveScore()
+                        }
                 }
                 .padding(.horizontal, 40)
                 
+                // Save Button - Puffy Style
                 Button(action: saveScore) {
-                    Text("SAVE")
+                    Text("SAVE SCORE")
+                        .font(.system(size: 22, weight: .black, design: .rounded))
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 60)
+                        .background(
+                            playerName.trimmingCharacters(in: .whitespaces).isEmpty ?
+                            AnyShapeStyle(Color.pink.opacity(0.8)) : AnyShapeStyle(CandyTheme.primaryGradient)
+                        )
+                        .cornerRadius(20)
+                        .shadow(color: .black.opacity(0.2), radius: 0, x: 0, y: 6)
                 }
-                .buttonStyle(PuffyButtonStyle(
-                    color: playerName.trimmingCharacters(in: .whitespaces).isEmpty ?
-                           CandyTheme.grayGradient : CandyTheme.successGradient
-                ))
+                .padding(.horizontal, 40)
                 .disabled(playerName.trimmingCharacters(in: .whitespaces).isEmpty)
+                
+                Spacer()
             }
-            .modifier(CandyCard()) // Applies the puffy white card with pink border
-            .padding(20)
+            .padding(.top, 40)
         }
         .interactiveDismissDisabled()
         .onAppear {
+            // Auto-focus keyboard on mobile appear
             isNameFieldFocused = true
         }
     }
@@ -85,4 +109,3 @@ struct NameEntrySheet: View {
         onSave: { _ in }
     )
 }
-

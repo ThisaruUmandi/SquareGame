@@ -14,116 +14,146 @@ struct GameOverSheet: View {
         ZStack {
             CandyTheme.backgroundGradient.ignoresSafeArea()
             
-            VStack(spacing: 25) {
-                // MARK: - Header Title
-                Text(didWin ? "LEVEL CLEAR!" : "GAME OVER!")
-                    .font(.system(size: 36, weight: .black, design: .rounded))
-                    .foregroundColor(didWin ? Color.yellow : Color.white)
-                    .shadow(color: .black.opacity(0.5), radius: 0, x: 0, y: 4)
-                    .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 0)
-                    .padding(.top, 10)
+            VStack(spacing: 40) {
+//                Spacer()
                 
-                // MARK: - Score Display Area
-                VStack(spacing: 6) {
-                    Text("ROUND \(round)")
-                        .font(.system(size: 20, weight: .black, design: .rounded))
-                        .foregroundColor(.black.opacity(0.8))
-                        .padding(.bottom, 5)
+                // MARK: - Header with Trophy/Emoji
+                VStack(spacing: 16) {
+                    Text(didWin ? "🏆" : "😔")
+                        .font(.system(size: 60))
+                        .shadow(color: .black.opacity(0.2), radius: 10)
                     
-                    Text("\(score)")
-                        .font(.system(size: 48, weight: .black, design: .rounded))
+                    Text(didWin ? "Level Clear!" : "Game Over!")
+                        .font(.system(size: 44, weight: .black, design: .rounded))
                         .foregroundColor(.white)
-                        .shadow(color: .black.opacity(0.3), radius: 0, x: 0, y: 5)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 15)
-                        .background(
-                            RoundedRectangle(cornerRadius: 22)
-                                .fill(didWin ? Color.green.opacity(0.8) : Color.red.opacity(0.8))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 22)
-                                        .strokeBorder(Color.white.opacity(0.4), lineWidth: 3)
-                                )
-                        )
+                        .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 4)
+                        .shadow(color: didWin ? .yellow.opacity(0.6) : .red.opacity(0.4), radius: 20)
                 }
                 
-                .padding(.horizontal, 8)
-                
-                //Action Buttons
+                // MARK: - Score Card
                 VStack(spacing: 12) {
+                    Text("ROUND \(round)")
+                        .font(.system(size: 18, weight: .bold, design: .rounded))
+                        .foregroundColor(.white.opacity(0.9))
+                        .tracking(2)
+                    
+                    Text("\(score)")
+                        .font(.system(size: 72, weight: .black, design: .rounded))
+                        .foregroundColor(didWin ? Color(hex: "FFE135") : Color(hex: "FFE135"))
+                        .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 4)
+                        .shadow(color: didWin ? Color(hex: "FFE135").opacity(0.5) : Color(hex: "FFE135").opacity(0.3), radius: 20)
+                }
+                .padding(.vertical, 30)
+                .padding(.horizontal, 50)
+                .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color.white.opacity(0.15))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20)
+                                .strokeBorder(Color.white.opacity(0.3), lineWidth: 2)
+                        )
+                )
+                .padding(.bottom,50)
+                .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
+                
+                
+//                Spacer()
+                
+                // MARK: - Action Buttons
+                HStack(spacing: 24) {
                     if didWin && round < 30 {
                         Button(action: {
-                            dismiss()
                             onNext()
+                            dismiss()
                         }) {
-                            buttonContent(text: "NEXT LEVEL", icon: "arrow.right.circle.fill")
+                            Image(systemName: "arrow.right.circle.fill")
+                                .font(.system(size: 36, weight: .bold))
+                                .foregroundColor(.white)
+                                .frame(width: 80, height: 80)
+                                .background(
+                                    ZStack {
+                                        Circle()
+                                            .fill(Color.black.opacity(0.15))
+                                            .offset(y: 4)
+                                        Circle()
+                                            .fill(CandyTheme.primaryGradient)
+                                        Circle()
+                                            .strokeBorder(Color.white.opacity(0.3), lineWidth: 3)
+                                    }
+                                )
+                                .shadow(color: Color(hex: "FF6BBD").opacity(0.5), radius: 20)
                         }
-                        .buttonStyle(PuffyButtonStyle(color: CandyTheme.primaryGradient))
                     }
                     
                     Button(action: {
                         dismiss()
                         onRestart()
                     }) {
-                        buttonContent(text: "RETRY", icon: "arrow.clockwise.circle.fill")
-                            .fixedSize()
+                        Image(systemName: "arrow.clockwise.circle.fill")
+                            .font(.system(size: 36, weight: .bold))
+                            .foregroundColor(.white)
+                            .frame(width: 80, height: 80)
+                            .background(
+                                ZStack {
+                                    Circle()
+                                        .fill(Color.black.opacity(0.15))
+                                        .offset(y: 4)
+                                    Circle()
+                                        .fill(CandyTheme.orangeGradient)
+                                    Circle()
+                                        .strokeBorder(Color.white.opacity(0.3), lineWidth: 3)
+                                }
+                            )
+                            .shadow(color: Color(hex: "FF9500").opacity(0.5), radius: 20)
                     }
-                    .buttonStyle(PuffyButtonStyle(color: CandyTheme.orangeGradient))
                     
                     Button(action: {
                         dismiss()
                         onExit()
                     }) {
-                        buttonContent(text: "EXIT", icon: "xmark.circle.fill")
-                        
-                        
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.system(size: 36, weight: .bold))
+                            .foregroundColor(.white)
+                            .frame(width: 80, height: 80)
+                            .background(
+                                ZStack {
+                                    Circle()
+                                        .fill(Color.black.opacity(0.15))
+                                        .offset(y: 4)
+                                    Circle()
+                                        .fill(CandyTheme.grayGradient)
+                                    Circle()
+                                        .strokeBorder(Color.white.opacity(0.25), lineWidth: 3)
+                                }
+                            )
+                            .shadow(color: .black.opacity(0.3), radius: 15)
                     }
-                    .buttonStyle(PuffyButtonStyle(color: CandyTheme.grayGradient))
                 }
+                .padding(.bottom, 50)
             }
-            .padding(20)
-            .modifier(CandyCard())
-            .padding(30)
             .transition(.scale.combined(with: .opacity))
         }
-    }
-    
-    private func buttonContent(text: String, icon: String) -> some View {
-        HStack {
-            Image(systemName: icon)
-            Text(text)
-        }
-        .font(.system(size: 18, weight: .black, design: .rounded))
-        .foregroundColor(.white)
-        .frame(maxWidth: .infinity)
-        .frame(height: 54)
-        .shadow(color: .black.opacity(0.2), radius: 0, x: 0, y: 2)
     }
 }
 
 #Preview("Win State") {
-    ZStack {
-        CandyTheme.backgroundGradient.ignoresSafeArea()
-        GameOverSheet(
-            didWin: true,
-            score: 1250,
-            round: 1,
-            onNext: {},
-            onRestart: {},
-            onExit: {}
-        )
-    }
+    GameOverSheet(
+        didWin: true,
+        score: 1250,
+        round: 1,
+        onNext: {},
+        onRestart: {},
+        onExit: {}
+    )
 }
 
 #Preview("Loss State") {
-    ZStack {
-        CandyTheme.backgroundGradient.ignoresSafeArea()
-        GameOverSheet(
-            didWin: false,
-            score: 450,
-            round: 5,
-            onNext: {},
-            onRestart: {},
-            onExit: {}
-        )
-    }
+    GameOverSheet(
+        didWin: false,
+        score: 450,
+        round: 5,
+        onNext: {},
+        onRestart: {},
+        onExit: {}
+    )
 }

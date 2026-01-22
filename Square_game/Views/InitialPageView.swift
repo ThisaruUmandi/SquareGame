@@ -6,6 +6,7 @@ struct InitialPageView: View {
     @State private var showGame = false
     @State private var showMap = false
     @State private var showHighScores = false
+    @State private var showInstructions = false
     
     var body: some View {
         NavigationStack {
@@ -17,7 +18,6 @@ struct InitialPageView: View {
                 Circle().fill(.white.opacity(0.1)).frame(width: 200).offset(x: -150, y: -230)
                 Circle().fill(.white.opacity(0.1)).frame(width: 150).offset(x: -180, y: -140)
                 
-                
                 // Optional: Floating decorative circles for "Bubbles" effect
                 Circle().fill(.white.opacity(0.1)).frame(width: 200).offset(x: 150, y: 230)
                 Circle().fill(.white.opacity(0.1)).frame(width: 150).offset(x: 180, y: 140)
@@ -28,7 +28,7 @@ struct InitialPageView: View {
                         Text("CoLoRs")
                             .font(.system(size: 72, weight: .black, design: .rounded))
                             .foregroundColor(.white)
-                            .shadow(color: Color.black.opacity(0.3), radius: 0, x: 0, y: 8)
+                            .shadow(color: Color.black.opacity(0.3), radius: 0, x: 0, y: 13)
                         
                         Text("ADVENTURE")
                             .font(.system(size: 24, weight: .bold, design: .rounded))
@@ -37,8 +37,6 @@ struct InitialPageView: View {
                     }
                     .padding(.top, 160)
                     .padding(.bottom, 50)
-                    
-                    //Spacer()
                     
                     // Main Menu Buttons
                     VStack(spacing: 25) {
@@ -73,9 +71,29 @@ struct InitialPageView: View {
                         .buttonStyle(PuffyButtonStyle(color: LinearGradient(colors: [Color(hex: "f6d365"), Color(hex: "fda085")], startPoint: .top, endPoint: .bottom)))
                     }
                     
-                    
                     Spacer()
-                    
+                }
+                
+                // Help button positioned in top-right corner
+                VStack {
+                    HStack {
+                        Spacer()
+                        Button(action: { showInstructions = true }) {
+                            Image(systemName: "questionmark.circle.fill")
+                                .font(.system(size: 30, weight: .black))
+                                .foregroundStyle(.white)
+                                .padding(12)
+                                .background(CandyTheme.orangeGradient)
+                                .clipShape(Circle())
+                                .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 4)
+                        }
+                        .padding(.top, 0)
+                        .padding(.trailing, 35)
+                    }
+                    Spacer()
+                }
+                .sheet(isPresented: $showInstructions) {
+                    InstructionsSheet()
                 }
             }
             .navigationDestination(isPresented: $showGame) {

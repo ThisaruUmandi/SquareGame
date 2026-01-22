@@ -50,18 +50,7 @@ struct GameView: View {
         .onAppear { gameManager.startGame() }
         
         // MARK: - Game Over logic
-        .fullScreenCover(isPresented: $gameManager.gameState.isGameOver) {
-            GameOverSheet(
-                didWin: gameManager.gameState.didWin,
-                score: gameManager.gameState.score,
-                round: gameManager.gameState.currentRound,
-                onNext: { gameManager.moveToNextLevel() },
-                onRestart: { gameManager.restartLevel() },
-                onExit: { dismiss() }
-            )
-        }
-        
-        // MARK: - High Score Entry logic
+        // GameView.swift body
         .sheet(isPresented: $gameManager.showNameEntry) {
             NameEntrySheet(
                 score: gameManager.gameState.score,
@@ -69,6 +58,19 @@ struct GameView: View {
                 onSave: { name in
                     gameManager.saveHighScore(playerName: name)
                 }
+            )
+        }
+        .fullScreenCover(isPresented: Binding(
+            get: { gameManager.gameState.isGameOver && !gameManager.showNameEntry },
+            set: { gameManager.gameState.isGameOver = $0 }
+        )) {
+            GameOverSheet(
+                didWin: gameManager.gameState.didWin,
+                score: gameManager.gameState.score,
+                round: gameManager.gameState.currentRound,
+                onNext: { gameManager.moveToNextLevel() },
+                onRestart: { gameManager.restartLevel() },
+                onExit: { dismiss() }
             )
         }
     } // End of Body
