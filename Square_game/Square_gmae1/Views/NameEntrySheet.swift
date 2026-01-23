@@ -16,8 +16,14 @@ struct NameEntrySheet: View {
             
             VStack(spacing: 25) {
                 // Header - Scaled for Mobile
-                Text("🏆 New High Score!")
-                    .font(.system(size: 32, weight: .black, design: .rounded))
+//                Text("🏆")
+//                    .font(.system(size: 48, weight: .black, design: .rounded))
+//                    .foregroundColor(.white)
+//                    .multilineTextAlignment(.center)
+//                    .shadow(color: .black.opacity(0.2), radius: 4, y: 4)
+//                    .padding(.top, 20)
+                Text("New High Score!")
+                    .font(.system(size: 35, weight: .black, design: .rounded))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .shadow(color: .black.opacity(0.2), radius: 4, y: 4)

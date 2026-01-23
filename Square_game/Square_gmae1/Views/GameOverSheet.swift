@@ -81,7 +81,7 @@ struct GameOverSheet: View {
                                             .strokeBorder(Color.white.opacity(0.3), lineWidth: 3)
                                     }
                                 )
-                                .shadow(color: Color(hex: "FF6BBD").opacity(0.5), radius: 20)
+                                .shadow(color: Color(hex: "FF6BBD").opacity(0.3), radius: 20)
                         }
                     }
                     
@@ -104,7 +104,7 @@ struct GameOverSheet: View {
                                         .strokeBorder(Color.white.opacity(0.3), lineWidth: 3)
                                 }
                             )
-                            .shadow(color: Color(hex: "FF9500").opacity(0.5), radius: 20)
+                            .shadow(color: Color(hex: "FF9500").opacity(0.3), radius: 20)
                     }
                     
                     Button(action: {
